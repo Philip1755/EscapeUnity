@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +10,11 @@ public class MenuManager : MonoBehaviour
     private static float MAX_MUSIC_VOLUME = 0.3f;
     private static float MAX_SFX_VOLUME = 1f;
 
+    private Resolution[] resolutions;
+
     [SerializeField] private GameObject[] subMenus;
     [SerializeField] private Slider musicSlider, sfxSlider;
+    [SerializeField] private TMP_Dropdown resolutionDropdown, qualityDropdown;
 
     private void Start()
     {
@@ -36,8 +41,37 @@ public class MenuManager : MonoBehaviour
     public void ChangeSFXVolume(float value)
         => SoundEffectManager.Instance.GetAudioSource().volume = value;
 
+    public void SetQuality(int qualityIndex)
+        => QualitySettings.SetQualityLevel(qualityIndex);
+
+    public void SetFullScreen(bool isFullScreen)
+        => Screen.fullScreen = isFullScreen;
+
+    public void SetResolution(int resolutionIndex)
+    {
+        Resolution res = resolutions[resolutionIndex];
+        Screen.SetResolution(res.width, res.height, Screen.fullScreen);
+    }
     private void Init()
     {
+        qualityDropdown.value = QualitySettings.GetQualityLevel();
+
+        resolutions = Screen.resolutions;
+        resolutionDropdown.ClearOptions();
+        List<string> options = new List<string>();
+        int currentResIndex = 0;
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            string option = resolutions[i].width + " x " + resolutions[i].height;
+            options.Add(option);
+            if (resolutions[i].width == Screen.currentResolution.width &&
+                resolutions[i].height == Screen.currentResolution.height)
+                currentResIndex = i;
+        }
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResIndex;
+        resolutionDropdown.RefreshShownValue();
+
         MusicManager.Instance.PlayMusic("MenuMusic");
         OpenSubMenu("MainMenu");
 
