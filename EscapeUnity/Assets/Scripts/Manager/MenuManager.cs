@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
@@ -25,6 +26,11 @@ public class MenuManager : MonoBehaviour
     public void PlayClickSound()
     {
         SoundEffectManager.Instance.PlayClip("ButtonClick");
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void OpenSubMenu(string name)
