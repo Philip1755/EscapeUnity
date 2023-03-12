@@ -1801,8 +1801,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1957877466}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 1957877467}
+        m_TargetAssemblyTypeName: OptionsManager, Assembly-CSharp
         m_MethodName: SetFullScreen
         m_Mode: 0
         m_Arguments:
@@ -1915,8 +1915,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1957877466}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 1957877467}
+        m_TargetAssemblyTypeName: OptionsManager, Assembly-CSharp
         m_MethodName: SetQuality
         m_Mode: 0
         m_Arguments:
@@ -3414,7 +3414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1102362221}
   m_Layer: 5
-  m_Name: GraphicsDropDown
+  m_Name: QualityDropDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4054,8 +4054,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1957877466}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 1957877467}
+        m_TargetAssemblyTypeName: OptionsManager, Assembly-CSharp
         m_MethodName: ChangeMusicVolume
         m_Mode: 0
         m_Arguments:
@@ -5937,8 +5937,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1957877466}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 1957877467}
+        m_TargetAssemblyTypeName: OptionsManager, Assembly-CSharp
         m_MethodName: ChangeSFXVolume
         m_Mode: 0
         m_Arguments:
@@ -6699,8 +6699,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1957877465}
   - component: {fileID: 1957877466}
+  - component: {fileID: 1957877467}
   m_Layer: 0
-  m_Name: MenuManager
+  m_Name: Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6738,10 +6739,23 @@ MonoBehaviour:
   - {fileID: 2089976802}
   - {fileID: 725145929}
   - {fileID: 1667971952}
+--- !u!114 &1957877467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957877464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964ec50ea13fd284b94d9bddaf49f69b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   musicSlider: {fileID: 1215425802}
   sfxSlider: {fileID: 1555791254}
   resolutionDropdown: {fileID: 2001512705}
   qualityDropdown: {fileID: 667098201}
+  fullScreenToggle: {fileID: 664176914}
 --- !u!1 &1972728061
 GameObject:
   m_ObjectHideFlags: 0
@@ -7082,8 +7096,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1957877466}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 1957877467}
+        m_TargetAssemblyTypeName: OptionsManager, Assembly-CSharp
         m_MethodName: SetResolution
         m_Mode: 0
         m_Arguments:
@@ -7597,6 +7611,7 @@ GameObject:
   - component: {fileID: 2126539784}
   - component: {fileID: 2126539786}
   - component: {fileID: 2126539785}
+  - component: {fileID: 2126539787}
   m_Layer: 5
   m_Name: PlayerSpriteImage
   m_TagString: Untagged
@@ -7662,6 +7677,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2126539783}
   m_CullTransparentMesh: 1
+--- !u!95 &2126539787
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126539783}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a4b66b4aa4c5f7249a09979987b0c09a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2138000921
 GameObject:
   m_ObjectHideFlags: 0

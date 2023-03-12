@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Animator))] 
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
@@ -39,5 +39,10 @@ public class PlayerController : MonoBehaviour
     {
         xDir = Input.GetAxisRaw("Horizontal");
         yDir = Input.GetAxisRaw("Vertical");
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        print(collision.gameObject.name);
     }
 }
