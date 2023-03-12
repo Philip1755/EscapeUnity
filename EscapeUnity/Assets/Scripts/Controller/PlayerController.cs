@@ -1,16 +1,12 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Animator))] 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private SpriteRenderer sr;
+    private Animator animator;
 
     private Vector2 movement = Vector2.zero;
-
-    [SerializeField] private Sprite idle1, idle2, up1, up2, right1, right2, down1, down2, left1, left2;
-    private int spriteIndex = 1;
-    private float animationSpeedInSeconds = .25f;
-    private float spriteTimer = 0;
 
     private float xDir = 0, yDir = 0;
     [SerializeField] private float speed;
@@ -18,46 +14,30 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        HandleInput();
-        UpdateSprite();
+        UpdateInput();
     }
 
     private void FixedUpdate()
     {
-        ApplyMovement();
+        UpdateMovement();
     }
 
-    private void ApplyMovement()
+    private void UpdateMovement()
     {
         movement = new Vector2(xDir, yDir).normalized;
         rb.velocity = movement * speed;
+        animator.SetFloat("xSpeed", xDir);
+        animator.SetFloat("ySpeed", yDir);
     }
 
-    private void HandleInput()
+    private void UpdateInput()
     {
         xDir = Input.GetAxisRaw("Horizontal");
         yDir = Input.GetAxisRaw("Vertical");
-    }
-
-    private void UpdateSprite()
-    {
-        if (spriteTimer >= animationSpeedInSeconds)
-        {
-            spriteIndex = spriteIndex == 1 ? 2 : 1;
-            spriteTimer = 0;
-        }
-        else
-            spriteTimer += Time.deltaTime;
-
-        sr.sprite = spriteIndex == 1 ? idle1 : idle2;
-        if (xDir > 0) sr.sprite = spriteIndex == 1 ? right1 : right2;
-        if (xDir < 0) sr.sprite = spriteIndex == 1 ? left1 : left2;
-        if (yDir > 0) sr.sprite = spriteIndex == 1 ? up1 : up2;
-        if (yDir < 0) sr.sprite = spriteIndex == 1 ? down1 : down2;
     }
 }
