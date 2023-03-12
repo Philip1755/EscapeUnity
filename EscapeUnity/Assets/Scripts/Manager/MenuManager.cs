@@ -12,6 +12,7 @@ public class MenuManager : MonoBehaviour
     private static float MAX_SFX_VOLUME = 1f;
 
     private Resolution[] resolutions;
+    private List<Resolution> filteredResolutions;
 
     [SerializeField] private GameObject[] subMenus;
     [SerializeField] private Slider musicSlider, sfxSlider;
@@ -55,28 +56,14 @@ public class MenuManager : MonoBehaviour
 
     public void SetResolution(int resolutionIndex)
     {
-        Resolution res = resolutions[resolutionIndex];
+        Resolution res = filteredResolutions[resolutionIndex];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
     }
     private void Init()
     {
         qualityDropdown.value = QualitySettings.GetQualityLevel();
 
-        resolutions = Screen.resolutions;
-        resolutionDropdown.ClearOptions();
-        List<string> options = new List<string>();
-        int currentResIndex = 0;
-        for (int i = 0; i < resolutions.Length; i++)
-        {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
-            options.Add(option);
-            if (resolutions[i].width == Screen.currentResolution.width &&
-                resolutions[i].height == Screen.currentResolution.height)
-                currentResIndex = i;
-        }
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResIndex;
-        resolutionDropdown.RefreshShownValue();
+        InitResolutions();
 
         MusicManager.Instance.PlayMusic("MenuMusic");
         OpenSubMenu("MainMenu");
@@ -85,5 +72,34 @@ public class MenuManager : MonoBehaviour
         sfxSlider.maxValue = MAX_SFX_VOLUME;
         musicSlider.value = MusicManager.Instance.GetAudioSource().volume;
         sfxSlider.value = SoundEffectManager.Instance.GetAudioSource().volume;
+    }
+
+    private void InitResolutions()
+    {
+        resolutions = Screen.resolutions;
+        filteredResolutions = new List<Resolution>();
+
+        resolutionDropdown.ClearOptions();
+        float currentRefreshRate = Screen.currentResolution.refreshRate;
+
+        foreach (var res in resolutions)
+            if (res.refreshRate == currentRefreshRate)
+                filteredResolutions.Add(res);
+
+        List<string> options = new List<string>();
+        int currentResolutionIndex = 0;
+
+        for (int i = 0; i < filteredResolutions.Count; i++)
+        {
+            string resolutionOption = filteredResolutions[i].width + " x " + filteredResolutions[i].height;
+            options.Add(resolutionOption);
+            if (filteredResolutions[i].width == Screen.width &&
+                filteredResolutions[i].height == Screen.height)
+                currentResolutionIndex = i;
+        }
+
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
     }
 }
