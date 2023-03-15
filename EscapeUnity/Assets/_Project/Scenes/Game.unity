@@ -8632,7 +8632,6 @@ GameObject:
   - component: {fileID: 1610980524}
   - component: {fileID: 1610980523}
   - component: {fileID: 1610980525}
-  - component: {fileID: 1610980527}
   - component: {fileID: 1610980526}
   m_Layer: 0
   m_Name: Player
@@ -8772,11 +8771,17 @@ MonoBehaviour:
   speed: 2
   hitableMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   attackPointLeft: {fileID: 1126896547}
   attackPointRight: {fileID: 2020974606}
   attackPointDown: {fileID: 1937019973}
   hitRadius: 0.25
+  eKeyUI: {fileID: 143214968}
+  interactKey: 101
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 128
+  interactionRadius: 0.8
 --- !u!95 &1610980526
 Animator:
   serializedVersion: 5
@@ -8798,24 +8803,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1610980527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610980519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1fc20f019493f3458efbadd919ecab4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eKeyUI: {fileID: 143214968}
-  InteractKey: 101
-  interactableMask:
-    serializedVersion: 2
-    m_Bits: 128
-  interactionRadius: 1
 --- !u!1 &1622307190
 GameObject:
   m_ObjectHideFlags: 0

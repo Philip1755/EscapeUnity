@@ -8,14 +8,25 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     private Vector2 movement = Vector2.zero;
-
     private float xDir = 0, yDir = 0;
+    [Header("Movement")]
     [SerializeField] private float speed = 2;
 
+    [Header("Melee Combat")]
     [SerializeField] private LayerMask hitableMask;
     [SerializeField] private GameObject attackPointLeft, attackPointRight, attackPointDown;
     [SerializeField] private float hitRadius = .3f;
     private bool hitLeft, hitDown, hitRight;
+
+    [Header("Interact System")]
+    [SerializeField] private GameObject eKeyUI;
+
+    [SerializeField] private KeyCode interactKey;
+    [SerializeField] private LayerMask interactableMask;
+    [SerializeField] private float interactionRadius = .8f;
+
+    private List<GameObject> interactables;
+    private bool canInteract;
 
     private void Awake()
     {
@@ -27,19 +38,12 @@ public class PlayerController : MonoBehaviour
     {
         UpdateInput();
         UpdateMeleeCombat();
+        CheckForInteractables();
     }
 
     private void FixedUpdate()
     {
         UpdateMovement();
-    }
-
-    private void UpdateMovement()
-    {
-        movement = new Vector2(xDir, yDir).normalized;
-        rb.velocity = movement * speed;
-        animator.SetFloat("xSpeed", xDir);
-        animator.SetFloat("ySpeed", yDir);
     }
 
     private void UpdateInput()
@@ -53,6 +57,16 @@ public class PlayerController : MonoBehaviour
             Mathf.Abs(Utility.GetMouseWorldPosition2D().y - transform.position.y) < .5;
         hitDown = Input.GetMouseButtonDown(0) && Utility.GetMouseWorldPosition2D().y < transform.position.y &&
             Mathf.Abs(Utility.GetMouseWorldPosition2D().x - transform.position.x) < .5;
+
+        canInteract = Input.GetKeyDown(interactKey);
+    }
+
+    private void UpdateMovement()
+    {
+        movement = new Vector2(xDir, yDir).normalized;
+        rb.velocity = movement * speed;
+        animator.SetFloat("xSpeed", xDir);
+        animator.SetFloat("ySpeed", yDir);
     }
 
     private void UpdateMeleeCombat()
@@ -87,11 +101,30 @@ public class PlayerController : MonoBehaviour
 
     private bool CanHit() => xDir == 0 && yDir == 0;
 
+    private void CheckForInteractables()
+    {
+        interactables = Utility.CheckForGameObjects2D(transform.position, interactionRadius, interactableMask);
+
+        eKeyUI.SetActive(false);
+
+        if (interactables == null || interactables.Count <= 0) return;
+
+        eKeyUI.SetActive(true);
+
+        if (canInteract)
+            interactables[0].GetComponent<IInteractable>()?.Interact(gameObject);
+    }
+
     private void OnDrawGizmos()
     {
         //Melee attack Points
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPointDown.transform.position, hitRadius);
         Gizmos.DrawWireSphere(attackPointLeft.transform.position, hitRadius);
         Gizmos.DrawWireSphere(attackPointRight.transform.position, hitRadius);
+
+        //Interact System
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, interactionRadius);
     }
 }
