@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private float xDir = 0, yDir = 0;
     [SerializeField] private float speed = 2;
 
-    [SerializeField] private LayerMask hitableObjects;
+    [SerializeField] private LayerMask hitableMask;
     [SerializeField] private GameObject attackPointLeft, attackPointRight, attackPointDown;
     [SerializeField] private float hitRadius = .3f;
     private bool hitLeft, hitDown, hitRight;
@@ -64,19 +64,19 @@ public class PlayerController : MonoBehaviour
         if (hitLeft)
         {
             animator.SetTrigger("hitLeft");
-            hittedObjects = Utility.CheckForGameObjects2D(attackPointLeft.transform.position, hitRadius, hitableObjects);
+            hittedObjects = Utility.CheckForGameObjects2D(attackPointLeft.transform.position, hitRadius, hitableMask);
         }
 
         if (hitRight)
         {
             animator.SetTrigger("hitRight");
-            hittedObjects = Utility.CheckForGameObjects2D(attackPointRight.transform.position, hitRadius, hitableObjects);
+            hittedObjects = Utility.CheckForGameObjects2D(attackPointRight.transform.position, hitRadius, hitableMask);
         }
 
         if (hitDown)
         {
             animator.SetTrigger("hitDown");
-            hittedObjects = Utility.CheckForGameObjects2D(attackPointDown.transform.position, hitRadius, hitableObjects);
+            hittedObjects = Utility.CheckForGameObjects2D(attackPointDown.transform.position, hitRadius, hitableMask);
         }
 
         if (hittedObjects == null) return;
@@ -86,11 +86,6 @@ public class PlayerController : MonoBehaviour
     }
 
     private bool CanHit() => xDir == 0 && yDir == 0;
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log(collision.gameObject.name);
-    }
 
     private void OnDrawGizmos()
     {
