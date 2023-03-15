@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] subMenus;
+    [SerializeField] private Slider loadingSlider;
 
     private void Start()
     {
@@ -18,7 +21,8 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Game");
+        OpenSubMenu("LoadingMenu");
+        StartCoroutine(LoadAsny("Game"));
     }
 
     public void OpenSubMenu(string name)
@@ -28,4 +32,18 @@ public class MenuManager : MonoBehaviour
     }
 
     public void ExitGame() => Application.Quit();
+
+    private IEnumerator LoadAsny(string sceneName)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01((float)operation.progress / .9f);
+
+            loadingSlider.value = progress;
+
+            yield return null;
+        }
+    }
 }
