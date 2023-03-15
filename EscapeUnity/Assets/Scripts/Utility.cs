@@ -1,5 +1,15 @@
 /**
+ * 
+ * 
+ * 
+ * 
+ * 
  * This Utility Class was created for Unity by Philip Neuhäuser
+ * 
+ * 
+ * 
+ * 
+ * 
  */
 
 using System.Collections.Generic;
@@ -38,19 +48,17 @@ public static class Utility
     /// <param name="position">the position you want to check</param>
     /// <param name="radius">the radius of the check</param>
     /// <returns></returns>
-    public static GameObject[] CheckForGameObjects2D(Vector2 position, float radius)
+    public static List<GameObject> CheckForGameObjects2D(Vector2 position, float radius)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius);
         if (colliders == null) return null;
-        else
+
+        List<GameObject> gameObjects = new List<GameObject>();
+        foreach (var col in colliders)
         {
-            List<GameObject> gameObjects = new List<GameObject>();
-            foreach (var col in colliders)
-            {
-                gameObjects.Add(col.gameObject);
-            }
-            return gameObjects.ToArray();
+            gameObjects.Add(col.gameObject);
         }
+        return gameObjects;
     }
 
     /// <summary>
@@ -60,19 +68,17 @@ public static class Utility
     /// <param name="radius">the radius of the check</param>
     /// <param name="layer">the layer you want to check for</param>
     /// <returns></returns>
-    public static GameObject[] CheckForGameObjects2D(Vector2 position, float radius, LayerMask layer)
+    public static List<GameObject> CheckForGameObjects2D(Vector2 position, float radius, LayerMask layer)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(position, radius, layer);
         if (colliders == null) return null;
-        else
+
+        List<GameObject> gameObjects = new List<GameObject>();
+        foreach (var col in colliders)
         {
-            List<GameObject> gameObjects = new List<GameObject>();
-            foreach (var col in colliders)
-            {
-                gameObjects.Add(col.gameObject);
-            }
-            return gameObjects.ToArray();
+            gameObjects.Add(col.gameObject);
         }
+        return gameObjects;
     }
 
     /// <summary>
@@ -81,7 +87,7 @@ public static class Utility
     /// <param name="position">the position you want to check</param>
     /// <param name="radius">the radius of the check</param>
     /// <returns></returns>
-    public static GameObject[] CheckForGameObjects3D(Vector3 position, float radius)
+    public static List<GameObject> CheckForGameObjects3D(Vector3 position, float radius)
     {
         Collider[] colliders = Physics.OverlapSphere(position, radius);
         if (colliders == null) return null;
@@ -91,7 +97,7 @@ public static class Utility
         {
             gameObjects.Add(col.gameObject);
         }
-        return gameObjects.ToArray();
+        return gameObjects;
     }
 
     /// <summary>
@@ -101,7 +107,7 @@ public static class Utility
     /// <param name="radius">the radius of the check</param>
     /// <param name="layer">the layer you want to check for</param>
     /// <returns></returns>
-    public static GameObject[] CheckForGameObjects3D(Vector3 position, float radius, LayerMask layer)
+    public static List<GameObject> CheckForGameObjects3D(Vector3 position, float radius, LayerMask layer)
     {
         Collider[] colliders = Physics.OverlapSphere(position, radius, layer);
         if (colliders == null) return null;
@@ -111,7 +117,7 @@ public static class Utility
         {
             gameObjects.Add(col.gameObject);
         }
-        return gameObjects.ToArray();
+        return gameObjects;
     }
 
 
