@@ -48,6 +48,9 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateInput()
     {
+        if (PauseMenuManager.isPaused)
+            return;
+
         xDir = Input.GetAxisRaw("Horizontal");
         yDir = Input.GetAxisRaw("Vertical");
 

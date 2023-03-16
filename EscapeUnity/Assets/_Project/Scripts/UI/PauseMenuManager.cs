@@ -7,7 +7,7 @@ public class PauseMenuManager : MonoBehaviour
     [SerializeField] private GameObject[] subMenus;
     [SerializeField] private AudioClip buttonClick;
 
-    private bool isPaused = false;
+    public static bool isPaused = false;
 
     private void Start()
     {
