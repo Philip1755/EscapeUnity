@@ -17,7 +17,7 @@ public class IntroManager : MonoBehaviour
     {
         if (vp.isPaused) pauseTimer++;
 
-        if (pauseTimer > 100 || (Input.GetKey(KeyCode.LeftAlt) && Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.Alpha4)))
+        if (pauseTimer > 10 || (Input.GetKey(KeyCode.LeftAlt) && Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.Alpha4)))
             SceneManager.LoadScene("Menu");
     }
 }

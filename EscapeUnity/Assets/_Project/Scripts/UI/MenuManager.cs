@@ -7,16 +7,17 @@ public class MenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] subMenus;
     [SerializeField] private Slider loadingSlider;
+    [SerializeField] private AudioClip menuMusic, buttonClick;
 
     private void Start()
     {
-        MusicManager.Instance.PlayMusic("MenuMusic");
+        AudioManager.Instance.PlayMusic(menuMusic);
         OpenSubMenu("MainMenu");
     }
 
     public void PlayClickSound()
     {
-        SoundEffectManager.Instance.PlayClip("ButtonClick");
+        AudioManager.Instance.PlaySoundEffect(buttonClick);
     }
 
     public void StartGame()

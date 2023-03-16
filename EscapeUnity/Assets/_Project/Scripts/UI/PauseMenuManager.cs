@@ -5,6 +5,7 @@ public class PauseMenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject[] subMenus;
+    [SerializeField] private AudioClip buttonClick;
 
     private bool isPaused = false;
 
@@ -29,7 +30,7 @@ public class PauseMenuManager : MonoBehaviour
 
     public void PlayClickSound()
     {
-        SoundEffectManager.Instance.PlayClip("ButtonClick");
+        AudioManager.Instance.PlaySoundEffect(buttonClick);
     }
 
     public void OpenSubMenu(string name)

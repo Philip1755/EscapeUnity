@@ -21,8 +21,8 @@ public class OptionsManager : MonoBehaviour
 
         musicSlider.maxValue = MAX_MUSIC_VOLUME;
         sfxSlider.maxValue = MAX_SFX_VOLUME;
-        musicSlider.value = MusicManager.Instance.GetAudioSource().volume;
-        sfxSlider.value = SoundEffectManager.Instance.GetAudioSource().volume;
+        musicSlider.value = AudioManager.Instance.GetMusicVolume();
+        sfxSlider.value = AudioManager.Instance.GetSFXVolume();
 
         InitResolutions();
 
@@ -30,10 +30,14 @@ public class OptionsManager : MonoBehaviour
     }
 
     public void ChangeMusicVolume(float value)
-        => MusicManager.Instance.GetAudioSource().volume = value;
+    {
+        AudioManager.Instance.SetMusicVolume(value);
+    }
 
     public void ChangeSFXVolume(float value)
-        => SoundEffectManager.Instance.GetAudioSource().volume = value;
+    {
+        AudioManager.Instance.SetSFXVolume(value);
+    }
 
     public void SetQuality(int qualityIndex)
         => QualitySettings.SetQualityLevel(qualityIndex);
