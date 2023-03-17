@@ -9,14 +9,19 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 movement = Vector2.zero;
     private float xDir = 0, yDir = 0;
+
     [Header("Movement")]
     [SerializeField] private float speed = 2;
 
     [Header("Melee Combat")]
+    [SerializeField] private AudioClip punch;
     [SerializeField] private LayerMask hitableMask;
     [SerializeField] private GameObject attackPointLeft, attackPointRight, attackPointDown;
     [SerializeField] private float hitRadius = .3f;
+    [SerializeField] private float basePunchSpeed = 0.2f;
+
     private bool hitLeft, hitDown, hitRight;
+    private float punchTimer = 0;
 
     [Header("Interact System")]
     [SerializeField] private GameObject eKeyUI;
@@ -74,6 +79,12 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateMeleeCombat()
     {
+        if(punchTimer > 0)
+        {
+            punchTimer -= Time.deltaTime;
+            return;
+        }
+
         if (!CanHit()) return;
 
         List<GameObject> hittedObjects = null;
@@ -96,13 +107,22 @@ public class PlayerController : MonoBehaviour
             hittedObjects = Utility.CheckForGameObjects2D(attackPointDown.transform.position, hitRadius, hitableMask);
         }
 
+        if (hitLeft || hitDown || hitRight)
+        {
+            AudioManager.Instance.PlaySoundEffect(punch);
+            punchTimer = basePunchSpeed;
+        }
+
         if (hittedObjects == null) return;
 
         foreach (var obj in hittedObjects)
             Debug.Log("Hitted: " + obj.name);
     }
 
-    private bool CanHit() => xDir == 0 && yDir == 0;
+    private bool CanHit()
+    {
+        return xDir == 0 && yDir == 0;
+    }
 
     private void CheckForInteractables()
     {
