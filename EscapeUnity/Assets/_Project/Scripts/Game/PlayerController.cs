@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         UpdateMeleeCombat();
         CheckForInteractables();
 
-        transform.RotateToPoint2D(Utility.GetMouseWorldPosition2D(), 90f);
+//        transform.RotateToPoint2D(Utility.GetMouseWorldPosition2D(), 90f);
     }
 
     private void FixedUpdate()
