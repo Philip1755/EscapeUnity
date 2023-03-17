@@ -16,11 +16,11 @@ public class PlayerController : MonoBehaviour
     [Header("Melee Combat")]
     [SerializeField] private AudioClip punch;
     [SerializeField] private LayerMask hitableMask;
-    [SerializeField] private GameObject attackPointLeft, attackPointRight, attackPointDown;
+    [SerializeField] private GameObject attackPointLeft, attackPointRight, attackPointDown, attackPointUp;
     [SerializeField] private float hitRadius = .3f;
     [SerializeField] private float basePunchSpeed = 0.2f;
 
-    private bool hitLeft, hitDown, hitRight;
+    private bool hitLeft, hitDown, hitRight, hitUp;
     private float punchTimer = 0;
 
     [Header("Interact System")]
@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
         UpdateInput();
         UpdateMeleeCombat();
         CheckForInteractables();
+
+        transform.RotateToPoint2D(Utility.GetMouseWorldPosition2D(), 90f);
     }
 
     private void FixedUpdate()
@@ -65,6 +67,8 @@ public class PlayerController : MonoBehaviour
             Mathf.Abs(Utility.GetMouseWorldPosition2D().y - transform.position.y) < .5;
         hitDown = Input.GetMouseButtonDown(0) && Utility.GetMouseWorldPosition2D().y < transform.position.y &&
             Mathf.Abs(Utility.GetMouseWorldPosition2D().x - transform.position.x) < .5;
+        hitUp = Input.GetMouseButtonDown(0) && Utility.GetMouseWorldPosition2D().y > transform.position.y &&
+            Mathf.Abs(Utility.GetMouseWorldPosition2D().x - transform.position.x) < .5;
 
         canInteract = Input.GetKeyDown(interactKey);
     }
@@ -85,7 +89,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (!CanHit()) return;
+        if (IsMoving()) return;
 
         List<GameObject> hittedObjects = null;
 
@@ -107,7 +111,13 @@ public class PlayerController : MonoBehaviour
             hittedObjects = Utility.CheckForGameObjects2D(attackPointDown.transform.position, hitRadius, hitableMask);
         }
 
-        if (hitLeft || hitDown || hitRight)
+        if (hitUp)
+        {
+            animator.SetTrigger("hitUp");
+            hittedObjects = Utility.CheckForGameObjects2D(attackPointUp.transform.position, hitRadius, hitableMask);
+        }
+
+        if (hitLeft || hitDown || hitRight || hitUp)
         {
             AudioManager.Instance.PlaySoundEffect(punch);
             punchTimer = basePunchSpeed;
@@ -119,10 +129,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Hitted: " + obj.name);
     }
 
-    private bool CanHit()
-    {
-        return xDir == 0 && yDir == 0;
-    }
+    private bool IsMoving() => !(xDir == 0 && yDir == 0);
 
     private void CheckForInteractables()
     {
@@ -145,6 +152,7 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(attackPointDown.transform.position, hitRadius);
         Gizmos.DrawWireSphere(attackPointLeft.transform.position, hitRadius);
         Gizmos.DrawWireSphere(attackPointRight.transform.position, hitRadius);
+        Gizmos.DrawWireSphere(attackPointUp.transform.position, hitRadius);
 
         //Interact System
         Gizmos.color = Color.blue;
