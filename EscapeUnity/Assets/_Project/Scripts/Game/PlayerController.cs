@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateMeleeCombat()
     {
-        if(punchTimer > 0)
+        if (punchTimer > 0)
         {
             punchTimer -= Time.deltaTime;
             return;
@@ -119,6 +119,8 @@ public class PlayerController : MonoBehaviour
 
         if (hitLeft || hitDown || hitRight || hitUp)
         {
+
+            AudioManager.Instance.SetPitch(Random.Range(0.8f, 1.2f));
             AudioManager.Instance.PlaySoundEffect(punch);
             punchTimer = basePunchSpeed;
         }
