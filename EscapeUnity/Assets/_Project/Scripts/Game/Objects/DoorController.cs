@@ -3,23 +3,15 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
-    [SerializeField] private Sprite xSprite, ySprite;
     [SerializeField] private Vector2 openDir;
     [SerializeField] private float speed = 0.2f;
 
-    private SpriteRenderer spriteRenderer;
-    private Vector2 closePosition;
-
-    private void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+    private Vector2 closePosition,openPosition;
 
     private void Start()
     {
         closePosition = transform.position;
-
-        spriteRenderer.sprite = openDir.x == 0 ? ySprite : xSprite;
+        openPosition = closePosition + openDir;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -36,14 +28,20 @@ public class DoorController : MonoBehaviour
 
     private IEnumerator Open()
     {
-        Vector2 startPos = transform.position;
-        Vector2 endPos = closePosition + openDir;
-
         float time = 0;
+
+        if (openDir.x != 0)
+        {
+            time = 1-(openPosition.x - transform.position.x) / openDir.x;
+        }
+        else if (openDir.y != 0) 
+        {
+            time = 1-(openPosition.y - transform.position.y) / openDir.y;
+        }
 
         while (time <= 1)
         {
-            transform.position = Vector2.Lerp(startPos, endPos, time);
+            transform.position = Vector2.Lerp(closePosition, openPosition, time);
 
             yield return null;
 
@@ -54,14 +52,20 @@ public class DoorController : MonoBehaviour
 
     private IEnumerator Close()
     {
-        Vector2 startPos = transform.position;
-        Vector2 endPos = closePosition;
-
         float time = 0;
+
+        if (openDir.x != 0)
+        {
+            time = 1+(closePosition.x - transform.position.x) / openDir.x;
+        }
+        else if (openDir.y != 0)
+        {
+            time = 1+(closePosition.y - transform.position.y) / openDir.y;
+        }
 
         while (time <= 1)
         {
-            transform.position = Vector2.Lerp(startPos, endPos, time);
+            transform.position = Vector2.Lerp(openPosition, closePosition, time);
 
             yield return null;
 
