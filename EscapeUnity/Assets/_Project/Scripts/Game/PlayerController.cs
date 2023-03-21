@@ -33,10 +33,14 @@ public class PlayerController : MonoBehaviour
     private List<GameObject> interactables;
     private bool canInteract;
 
+    private List<int> keyIDs;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        keyIDs = new List<int>();
     }
 
     private void Update()
@@ -44,8 +48,6 @@ public class PlayerController : MonoBehaviour
         UpdateInput();
         UpdateMeleeCombat();
         CheckForInteractables();
-
-//        transform.RotateToPoint2D(Utility.GetMouseWorldPosition2D(), 90f);
     }
 
     private void FixedUpdate()
@@ -146,6 +148,10 @@ public class PlayerController : MonoBehaviour
         if (canInteract)
             interactables[0].GetComponent<IInteractable>()?.Interact(gameObject);
     }
+
+    public void AddKey(int keyID) => keyIDs.Add(keyID);
+
+    public List<int> GetKeys() => keyIDs;
 
     private void OnDrawGizmos()
     {
